@@ -1,0 +1,57 @@
+{
+  "schema" : 4,
+  "repository" : "helloangular/helio-fanout-own-20261023",
+  "pipeline" : "pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047",
+  "key_id" : "4ad2e285cfde6c46",
+  "signature" : "0eJWyeY4OPKasFhcV7Yfo2BQofonsMRhTfiECzzB0FAcRTF+17XZmeeh10A29LMffTCi27w2SWxt8F+OTqB3Cw==",
+  "redeploy_workflow" : ".github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-redeploy.yml",
+  "modes" : {
+    "forward" : {
+      "workflow" : ".github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-deploy.yml",
+      "capability" : "build_and_deploy",
+      "jobs" : [ {
+        "job" : "deploy-fown-prod-east",
+        "instance" : "881a278d-4923-420d-87fe-855e7e5ff560"
+      }, {
+        "job" : "deploy-fown-prod-west",
+        "instance" : "8c243402-2cb1-4ee4-9012-d76121f339b1"
+      } ]
+    },
+    "redeploy" : {
+      "workflow" : ".github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-redeploy.yml",
+      "capability" : "deploy_only",
+      "jobs" : [ {
+        "job" : "deploy-fown-prod-east",
+        "instance" : "881a278d-4923-420d-87fe-855e7e5ff560"
+      }, {
+        "job" : "deploy-fown-prod-west",
+        "instance" : "8c243402-2cb1-4ee4-9012-d76121f339b1"
+      } ]
+    }
+  },
+  "workflow" : ".github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-deploy.yml",
+  "planning_runs_on" : [ "self-hosted", "helio-plan" ],
+  "deploy_one" : ".github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-deploy-one.yml",
+  "manifest_id" : "mf_df9776a770f51d43",
+  "version" : 2,
+  "tiers" : [ {
+    "tier" : "production",
+    "instances" : [ {
+      "id" : "881a278d-4923-420d-87fe-855e7e5ff560",
+      "name" : "fown-prod-east",
+      "binding_id" : "68319fd0-8bae-4ae2-add2-ac584748e38c",
+      "binding_version" : 1,
+      "config_hash" : "11c7834ea91f8fe93b7a2b1f46e7e4ffa6b31687dd7a9f55e6b7b6761bb9fd0b",
+      "runs_on" : [ "ubuntu-latest" ],
+      "gate_mode" : "provider_observed"
+    }, {
+      "id" : "8c243402-2cb1-4ee4-9012-d76121f339b1",
+      "name" : "fown-prod-west",
+      "binding_id" : "8d15f567-0352-41e1-be24-34508b6b7871",
+      "binding_version" : 1,
+      "config_hash" : "35a37f9c4b77a958536449972ce96a247ecb007fe057960c0ed9aa49ebe0728e",
+      "runs_on" : [ "ubuntu-latest" ],
+      "gate_mode" : "provider_observed"
+    } ]
+  } ]
+}
