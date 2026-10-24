@@ -1,0 +1,13 @@
+{
+  "schema" : 3,
+  "repository" : "helloangular/helio-fanout-own-20261023",
+  "pipeline" : "pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047",
+  "activated_at" : "2026-10-24 18:56:30.224159",
+  "key_id" : "4ad2e285cfde6c46",
+  "signature" : "YrUUdf/DcblWwH22QoI/BdTGm/gqcoUdX6Gkmg0za8kLJrtxTwA4DtiYzO4MpOw5D7jTt+lUMijOIh1dec7uBQ==",
+  "redeploy_workflow" : ".github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-redeploy.yml",
+  "workflow" : ".github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-deploy.yml",
+  "manifest_id" : "mf_df9776a770f51d43",
+  "version" : 2,
+  "manifest_sha256" : "df9776a770f51d43e6c723550809810c437cdb801531a1b198890875c6af586b"
+}
