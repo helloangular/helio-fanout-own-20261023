@@ -1,0 +1,64 @@
+name: helio deploy pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047
+'on':
+  workflow_dispatch:
+    inputs:
+      helio_execution_id:
+        type: string
+        required: false
+      environments:
+        type: string
+        required: false
+        description: JSON list of instance IDs to deploy; must be a subset of the manifest closed under earlier tiers
+  push:
+    branches:
+    - main
+jobs:
+  plan:
+    runs-on:
+    - self-hosted
+    - helio-plan
+    outputs:
+      selected: ${{ steps.verify.outputs.selected }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: verify
+      env:
+        HELIO_ENVIRONMENTS: ${{ inputs.environments }}
+        HELIO_MANIFEST: .helio/pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047/environments.json
+        HELIO_ACTIVATION: .helio/pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047/activation.json
+        HELIO_WORKFLOW: .github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-deploy.yml
+      run: node .helio/plan.cjs
+  build:
+    needs:
+    - plan
+    runs-on:
+    - self-hosted
+    - helio-plan
+    outputs:
+      artifact_digest: ${{ steps.publish.outputs.artifact_digest }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: publish
+      run: node .helio/build.cjs
+  deploy-fown-prod-east:
+    needs:
+    - plan
+    - build
+    if: ${{ !cancelled() && needs.plan.result == 'success' && needs.build.result == 'success' && contains(fromJSON(needs.plan.outputs.selected), 'fown-prod-east') }}
+    uses: ./.github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-deploy-one.yml
+    with:
+      env: fown-prod-east
+      runs_on: '["ubuntu-latest"]'
+      artifact_digest: ${{ needs.build.outputs.artifact_digest }}
+    secrets: inherit
+  deploy-fown-prod-west:
+    needs:
+    - plan
+    - build
+    if: ${{ !cancelled() && needs.plan.result == 'success' && needs.build.result == 'success' && contains(fromJSON(needs.plan.outputs.selected), 'fown-prod-west') }}
+    uses: ./.github/workflows/helio-pipeline-b4132cf0-7fdc-4261-86ea-02d3eb1f2047-deploy-one.yml
+    with:
+      env: fown-prod-west
+      runs_on: '["ubuntu-latest"]'
+      artifact_digest: ${{ needs.build.outputs.artifact_digest }}
+    secrets: inherit
